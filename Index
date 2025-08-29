@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAETERJ Campos: Infográfico do Curso de Gestão Portuária</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Palette Name: Brilliant Blues -->
+    <!-- Narrative Plan:
+        1. Hook/Intro: "Porto de Oportunidades" theme, highlighting market demand with big numbers.
+        2. Regional Context: Visualize the port landscape in Brazil and RJ, focusing on Superporto do Açu.
+        3. The Solution: Introduce FAETERJ Campos and the new course.
+        4. Course Deep Dive: Detail the curriculum structure, hours, and modular certifications.
+        5. Career Path: Show the progression based on the course modules.
+        6. Timeline & CTA: Clear timeline for launch and call to action.
+    -->
+    <!-- Visualization Choices (NO SVG, NO MERMAID JS):
+        - Data: Port distribution in Brazil. Goal: Inform/Compare. Viz: Donut Chart. Justification: Shows proportion clearly. Lib: Chart.js/Canvas.
+        - Data: Ports per state (SE/S). Goal: Compare. Viz: Bar Chart. Justification: Best for comparing quantities across categories. Lib: Chart.js/Canvas.
+        - Data: Course hour breakdown. Goal: Compare Composition. Viz: Pie Chart. Justification: Shows parts of a whole effectively. Lib: Chart.js/Canvas.
+        - Data: Course modular structure. Goal: Organize Process. Viz: Flow Chart. Justification: Visually explains a step-by-step process. Method: Structured HTML/CSS with Tailwind.
+        - Data: Career progression. Goal: Show Change/Progression. Viz: Vertical Timeline. Justification: Maps career steps to course milestones. Method: Structured HTML/CSS with Tailwind.
+        - Data: Project implementation dates. Goal: Show Change over Time. Viz: Horizontal Timeline. Justification: Clearly shows key dates in sequence. Method: Structured HTML/CSS with Tailwind.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0F8FF;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .kpi-card {
+            background-color: #003F5C;
+            color: #FFFFFF;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .kpi-number {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1;
+            color: #7CB5D3;
+        }
+        .kpi-label {
+            margin-top: 0.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black text-[#003F5C] mb-2">Porto de Oportunidades</h1>
+            <p class="text-lg md:text-xl text-[#366E8A]">Análise do Novo Curso de Tecnólogo em Gestão Portuária da FAETERJ Campos</p>
+        </header>
+
+        <main>
+            <section id="oportunidade" class="mb-16">
+                <div class="text-center max-w-3xl mx-auto mb-10">
+                    <h2 class="text-3xl font-bold text-[#003F5C] mb-4">Um Novo Horizonte para o Norte Fluminense</h2>
+                    <p class="text-lg text-[#366E8A]">
+                        O crescimento econômico do Rio de Janeiro, impulsionado por gigantescos complexos portuários como o Super Porto do Açu e a exploração do pré-sal, criou uma demanda sem precedentes por profissionais qualificados. A região Norte Fluminense está no epicentro dessa transformação, mas enfrenta uma escassez crítica de mão de obra especializada para o setor.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                    <div class="kpi-card">
+                        <div class="kpi-number">43</div>
+                        <div class="kpi-label">Portos Marítimos no Brasil</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-number">21</div>
+                        <div class="kpi-label">Concentrados nas Regiões Sul e Sudeste</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-number">7</div>
+                        <div class="kpi-label">Complexos Portuários no Estado do Rio de Janeiro</div>
+                    </div>
+                </div>
+
+                 <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-2xl font-bold text-center text-[#003F5C] mb-4">Distribuição Portuária no Brasil</h3>
+                    <p class="text-center text-[#366E8A] mb-6 max-w-2xl mx-auto">As regiões Sul e Sudeste concentram quase metade da infraestrutura portuária marítima do país, evidenciando sua importância estratégica para o comércio exterior brasileiro e a necessidade de investimentos contínuos em logística e capacitação profissional.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="chart-container h-64 md:h-80">
+                            <canvas id="distribuicaoPortosChart"></canvas>
+                        </div>
+                        <div class="chart-container h-80 md:h-96">
+                            <canvas id="portosPorEstadoChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="curso" class="mb-16">
+                 <div class="text-center max-w-3xl mx-auto mb-10">
+                    <h2 class="text-3xl font-bold text-[#003F5C] mb-4">A Resposta Estratégica: FAETERJ Campos</h2>
+                    <p class="text-lg text-[#366E8A]">
+                        Para atender a essa demanda, a FAETEC inaugura a FAETERJ Campos, com o curso de Tecnólogo em Gestão Portuária. O objetivo é formar gestores altamente capacitados para planejar e executar operações complexas, dominando desde a logística multimodal até a legislação aduaneira, com foco em eficiência, segurança e sustentabilidade.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                    <div class="lg:col-span-3 bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-2xl font-bold text-center text-[#003F5C] mb-4">Estrutura do Curso: Formação Completa e Modular</h3>
+                        <p class="text-center text-[#366E8A] mb-6 max-w-2xl mx-auto">O curso é projetado para fornecer uma base sólida e especializada, com uma carga horária total de 2400 horas, equilibrando teoria, prática profissional e atividades de enriquecimento acadêmico e cultural.</p>
+                        <div class="chart-container h-80">
+                            <canvas id="horasCursoChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6 flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold text-center text-[#003F5C] mb-6">Perfil do Profissional</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="text-2xl text-[#003F5C] mr-3">⚓</span>
+                                <div>
+                                    <h4 class="font-bold">Gestor de Transporte Aquaviário</h4>
+                                    <p class="text-[#366E8A]">Gerencia o transporte de cargas e passageiros com eficiência e segurança.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-2xl text-[#003F5C] mr-3">📈</span>
+                                <div>
+                                    <h4 class="font-bold">Administrador Portuário</h4>
+                                    <p class="text-[#366E8A]">Desempenha funções estratégicas, administrativas e operacionais em organizações portuárias.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-2xl text-[#003F5C] mr-3">🌍</span>
+                                <div>
+                                    <h4 class="font-bold">Especialista em Sustentabilidade</h4>
+                                    <p class="text-[#366E8A]">Gerencia projetos ambientais e de recursos humanos, alinhados às melhores práticas do setor.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="modulos" class="mb-16">
+                <div class="text-center max-w-3xl mx-auto mb-10">
+                    <h2 class="text-3xl font-bold text-[#003F5C] mb-4">Jornada de Aprendizagem e Certificação Progressiva</h2>
+                    <p class="text-lg text-[#366E8A]">
+                        A estrutura modular do curso permite que o aluno obtenha certificações intermediárias reconhecidas pelo mercado a cada etapa concluída, construindo uma carreira sólida desde os primeiros períodos.
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                    <div class="relative">
+                        <div class="absolute left-1/2 -translate-x-1/2 h-full w-1 bg-[#C1E1F4] hidden md:block" aria-hidden="true"></div>
+                        
+                        <div class="relative flex flex-col md:flex-row md:items-center justify-between mb-8">
+                            <div class="md:w-5/12 order-1">
+                                <div class="bg-[#F0F8FF] p-4 rounded-lg border-l-4 border-[#7CB5D3]">
+                                    <h4 class="font-bold text-lg text-[#003F5C]">Módulo I: Agente Administrativo</h4>
+                                    <p class="text-sm text-[#366E8A]">Períodos 1º + 2º (960 h.a.)</p>
+                                    <p class="mt-2 text-[#366E8A]">Executa serviços de apoio em RH, finanças e logística, atendendo clientes e gerenciando documentos.</p>
+                                </div>
+                            </div>
+                            <div class="w-10 h-10 bg-[#003F5C] text-white rounded-full flex items-center justify-center font-bold text-xl my-4 md:my-0 mx-auto md:mx-0 order-2">1</div>
+                            <div class="md:w-5/12 order-3"></div>
+                        </div>
+
+                        <div class="relative flex flex-col md:flex-row md:items-center justify-between mb-8">
+                            <div class="md:w-5/12 order-3 md:order-1"></div>
+                            <div class="w-10 h-10 bg-[#003F5C] text-white rounded-full flex items-center justify-center font-bold text-xl my-4 md:my-0 mx-auto md:mx-0 order-2">2</div>
+                            <div class="md:w-5/12 order-1 md:order-3">
+                                <div class="bg-[#F0F8FF] p-4 rounded-lg border-r-4 md:border-l-4 md:border-r-0 border-[#7CB5D3]">
+                                    <h4 class="font-bold text-lg text-[#003F5C]">Módulo II: Operador de Transportes Multimodais</h4>
+                                    <p class="text-sm text-[#366E8A]">Períodos 1º + 3º (960 h.a.)</p>
+                                    <p class="mt-2 text-[#366E8A]">Coordena operações de transporte, embarque, transbordo e desembarque de cargas, otimizando rotas e recursos.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="relative flex flex-col md:flex-row md:items-center justify-between mb-8">
+                            <div class="md:w-5/12 order-1">
+                                <div class="bg-[#F0F8FF] p-4 rounded-lg border-l-4 border-[#7CB5D3]">
+                                    <h4 class="font-bold text-lg text-[#003F5C]">Módulo III: Assistente de Comércio Exterior</h4>
+                                    <p class="text-sm text-[#366E8A]">Períodos 3º + 4º (960 h.a.)</p>
+                                    <p class="mt-2 text-[#366E8A]">Gerencia a documentação de importação e exportação, controlando embarques e o desembaraço de cargas.</p>
+                                </div>
+                            </div>
+                            <div class="w-10 h-10 bg-[#003F5C] text-white rounded-full flex items-center justify-center font-bold text-xl my-4 md:my-0 mx-auto md:mx-0 order-2">3</div>
+                            <div class="md:w-5/12 order-3"></div>
+                        </div>
+
+                        <div class="relative flex flex-col md:flex-row md:items-center justify-between">
+                            <div class="md:w-5/12 order-3 md:order-1"></div>
+                            <div class="w-10 h-10 bg-[#003F5C] text-white rounded-full flex items-center justify-center font-bold text-xl my-4 md:my-0 mx-auto md:mx-0 order-2">4</div>
+                            <div class="md:w-5/12 order-1 md:order-3">
+                                <div class="bg-[#F0F8FF] p-4 rounded-lg border-r-4 md:border-l-4 md:border-r-0 border-[#7CB5D3]">
+                                    <h4 class="font-bold text-lg text-[#003F5C]">Módulo IV: Coordenador de Operações Portuárias</h4>
+                                    <p class="text-sm text-[#366E8A]">Períodos 4º + 5º (960 h.a.)</p>
+                                    <p class="mt-2 text-[#366E8A]">Supervisiona o recebimento e embarque de cargas e passageiros, programa atracação e garante a eficiência operacional do porto.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="cronograma" class="mb-16">
+                <div class="text-center max-w-3xl mx-auto mb-10">
+                    <h2 class="text-3xl font-bold text-[#003F5C] mb-4">Cronograma de Implementação</h2>
+                    <p class="text-lg text-[#366E8A]">
+                        A FAETERJ Campos segue um planejamento estratégico para garantir o sucesso do curso e o desenvolvimento da região.
+                    </p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex flex-col md:flex-row justify-between items-center text-center">
+                        <div class="flex-1 p-4">
+                            <div class="text-4xl font-black text-[#003F5C]">2025</div>
+                            <div class="mt-2 text-lg font-semibold text-[#366E8A]">Preparação e Autorização</div>
+                            <p class="text-sm text-gray-600 mt-1">Solicitação de autorização de funcionamento junto ao CEE-RJ e preparação da documentação.</p>
+                        </div>
+                        <div class="w-full md:w-auto text-3xl text-[#7CB5D3] my-4 md:my-0">→</div>
+                        <div class="flex-1 p-4 border-t-2 md:border-t-0 md:border-l-2 border-dashed border-[#C1E1F4]">
+                            <div class="text-4xl font-black text-[#003F5C]">2026</div>
+                            <div class="mt-2 text-lg font-semibold text-[#366E8A]">Início das Atividades</div>
+                            <p class="text-sm text-gray-600 mt-1">Implementação da 1ª turma do curso (34 alunos, noturno) e oferta de cursos de extensão para a comunidade.</p>
+                        </div>
+                        <div class="w-full md:w-auto text-3xl text-[#7CB5D3] my-4 md:my-0">→</div>
+                        <div class="flex-1 p-4 border-t-2 md:border-t-0 md:border-l-2 border-dashed border-[#C1E1F4]">
+                            <div class="text-4xl font-black text-[#003F5C]">2027</div>
+                            <div class="mt-2 text-lg font-semibold text-[#366E8A]">Expansão e Pós-Graduação</div>
+                            <p class="text-sm text-gray-600 mt-1">Previsão de implementação de cursos de Pós-Graduação, com 25 vagas anuais.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-12 pt-8 border-t border-[#C1E1F4]">
+            <p class="text-[#366E8A]">FAETERJ Campos - Formando os futuros líderes do setor portuário.</p>
+            <p class="text-sm text-gray-500 mt-2">Infográfico gerado com base no Projeto de Implantação e Funcionamento da FAETERJ Campos.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const brilliantBluesPalette = ['#003F5C', '#366E8A', '#7CB5D3', '#C1E1F4'];
+
+            const defaultTooltipConfig = {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            
+            function wrapLabels(label, maxLength = 16) {
+                if (typeof label !== 'string' || label.length <= maxLength) {
+                    return label;
+                }
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                words.forEach(word => {
+                    if ((currentLine + word).length > maxLength) {
+                        lines.push(currentLine.trim());
+                        currentLine = '';
+                    }
+                    currentLine += word + ' ';
+                });
+                lines.push(currentLine.trim());
+                return lines;
+            }
+
+            const ctxDistribuicao = document.getElementById('distribuicaoPortosChart').getContext('2d');
+            new Chart(ctxDistribuicao, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Regiões Sul e Sudeste', 'Outras Regiões'],
+                    datasets: [{
+                        label: 'Distribuição de Portos',
+                        data: [21, 43 - 21],
+                        backgroundColor: [brilliantBluesPalette[0], brilliantBluesPalette[2]],
+                        borderColor: '#F0F8FF',
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        ...defaultTooltipConfig.plugins,
+                        legend: {
+                            position: 'bottom',
+                        },
+                        title: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            const ctxPortosEstado = document.getElementById('portosPorEstadoChart').getContext('2d');
+            new Chart(ctxPortosEstado, {
+                type: 'bar',
+                data: {
+                    labels: ['Rio de Janeiro', 'Espírito Santo', 'Santa Catarina', 'Rio Grande do Sul', 'São Paulo', 'Paraná'],
+                    datasets: [{
+                        label: 'Nº de Portos por Estado (Sul/Sudeste)',
+                        data: [7, 6, 4, 2, 2, 1],
+                        backgroundColor: brilliantBluesPalette[1],
+                        borderColor: brilliantBluesPalette[0],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        ...defaultTooltipConfig.plugins,
+                        legend: {
+                            display: false,
+                        },
+                        title: {
+                            display: true,
+                            text: 'Nº de Portos por Estado',
+                            padding: {
+                                bottom: 10
+                            }
+                        }
+                    }
+                }
+            });
+
+            const ctxHorasCurso = document.getElementById('horasCursoChart').getContext('2d');
+            const originalLabels = ['Carga Horária Teórica', 'Prática Profissional Supervisionada', 'Atividades Acadêmico Científico Culturais'];
+            const wrappedLabels = originalLabels.map(label => wrapLabels(label));
+
+            new Chart(ctxHorasCurso, {
+                type: 'pie',
+                data: {
+                    labels: wrappedLabels,
+                    datasets: [{
+                        label: 'Distribuição da Carga Horária (horas)',
+                        data: [2000, 200, 200],
+                        backgroundColor: [brilliantBluesPalette[0], brilliantBluesPalette[1], brilliantBluesPalette[2]],
+                        borderColor: '#FFFFFF',
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        ...defaultTooltipConfig.plugins,
+                        legend: {
+                            position: 'bottom',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Carga Horária Total: 2400h',
+                            font: {
+                                size: 16
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 20
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

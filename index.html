@@ -255,7 +255,7 @@
 
                         <p class="text-center text-[#366E8A] mb-6 max-w-2xl mx-auto">O curso é projetado para fornecer uma base sólida e especializada, com uma carga horária total de 2400 horas, equilibrando teoria, prática profissional e atividades de enriquecimento acadêmico e cultural.</p> 
 
-                        <div class="chart-container h-180"> 
+                        <div class="chart-container h-80"> 
 
                             <canvas id="horasCursoChart"></canvas> 
 
@@ -856,7 +856,7 @@ Graduada em Gestão de Recursos Humanos (Universidade Estácio de Sá) e Licenci
 
             const ctxHorasCurso = document.getElementById('horasCursoChart').getContext('2d'); 
 
-            const originalLabels = ['Carga Horária Teórica', 'Prática Profissional Supervisionada', 'Atividades Acadêmico Científico Culturais']; 
+            const originalLabels = ['C/H Teórica', 'Prática Profissional Supervisionada', 'Atividades Acadêmico Científico Culturais']; 
 
             const wrappedLabels = originalLabels.map(label => wrapLabels(label)); 
 
@@ -890,7 +890,7 @@ Graduada em Gestão de Recursos Humanos (Universidade Estácio de Sá) e Licenci
 
                     responsive: true, 
 
-                    maintainAspectRatio: false, 
+                    maintainAspectRatio: true, 
 
                     plugins: { 
 
@@ -938,6 +938,7 @@ Graduada em Gestão de Recursos Humanos (Universidade Estácio de Sá) e Licenci
 
 
 </html> 
+
 
 
 
